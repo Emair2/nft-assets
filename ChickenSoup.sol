@@ -5,6 +5,7 @@ import "@openzeppelin/contracts@4.8.0/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts@4.8.0/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts@4.8.0/access/Ownable.sol";
 import "@openzeppelin/contracts@4.8.0/utils/Counters.sol";
+import "@openzeppelin/contracts@4.8.0/utils/Strings.sol";
 
 contract Chicken is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
@@ -17,10 +18,11 @@ contract Chicken is ERC721, ERC721URIStorage, Ownable {
         return "https://emair2.github.io/nft-assets/ChickenSoupDate/";
     }
 
-    function safeMint(address to, string memory uri) public onlyOwner {
-        uint256 tokenId = _tokenIdCounter.current();
+    function safeMint(address to) public onlyOwner {
         _tokenIdCounter.increment();
+        uint256 tokenId = _tokenIdCounter.current();
         _safeMint(to, tokenId);
+        string memory uri = string.concat(Strings.toString(tokenId), ".json");
         _setTokenURI(tokenId, uri);
     }
 
